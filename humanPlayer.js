@@ -21,33 +21,11 @@ class HumanPlayer {
     constructor() {
         rl = readline.createInterface(process.stdin, process.stdout);
     }
-
-    getMove(cb) {
-        rl.question('Make your move!', (answer) => {
-            cb(answer);
-            rl.close();
-        });
-    }
 };
 
 //Grid:
 //i = row
 //j = column
-function gridSpace(r, c) {
-    let coordinates = [];
-    for (let row = 1; row <= 10; row++) {
-        if (r === row) {
-            coordinates.push(row);
-        }
-    };
-    for (let column = 1; column <= 10; column++) {
-        if (c === column) {
-            coordinates.push(column)
-        }
-    }
-
-    return coordinates;
-}
 
 class Board {
     constructor (numRows, numCols, numShips, player) {
@@ -91,20 +69,63 @@ class Board {
     // if the space has been called upon before is invalid
     // if the space does not exist it is invalid
     inValidMove() {
-        // if player input is undefined
+        console.log("This move is invalid!")
     }
 
-    playerInput (array) {
-        // a miss is 'x'
-        // for loop 
-        this.firedUponSpaces();
+    playerInput(coordinates) {
+        let destroyed = 'x';
+        let miss = 'm';
+        for (let outer = 0; outer < this.grid.length; outer++) {
+            let subGrid = this.grid[outer];
+            for (let inner = 0; inner < subGrid.length; inner++) {
+                let space = subGrid[inner];
+                if (space === 's') {
+                    space = destroyed;
+                    this.numShips--;
+                } else {
+                    space = miss;
+                }
+            }
+        }
+        this.gridDisplay();
+        this.shipsRemaining();
+        this.gameStatus();
+    }
+
+    grabCoordinates(r, c) {
+        console.log("Make your move!")
+        // rl.question('Enter row', (r) => {
+        //     cb(answer);
+        //     rl.close();
+        // });
+
+
+        let coordinates = [];
+
+        for (let row = 1; row <= this.numRows; row++) {
+            if (r === row) {
+                coordinates.push(row);
+            } else {
+                this.inValidMove();
+            }
+        };
+        for (let column = 1; column <= this.numCols; column++) {
+            if (c === column) {
+                coordinates.push(column)
+            } else {
+                this.inValidMove();
+            }
+        }
+        playerInput(coordinates);
     }
 
 }
-const player1 = new HumanPlayer
-const boardGame = new Board(2, 2, 1);
+
+//const player1 = new HumanPlayer
+const boardGame = new Board(3, 3, 1);
 boardGame.createGrid()
-console.log(boardGame);
+boardGame.playerInput([1, 2]);
+
 
 //CB
 //Next step after user input is received.
