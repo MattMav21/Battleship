@@ -49,7 +49,7 @@ function gridSpace(r, c) {
     return coordinates;
 }
 
-console.log(gridSpace(3, 8));
+// console.log(gridSpace(3, 8));
 
 class Board {
     constructor (numRows, numCols, numShips) {
@@ -59,21 +59,28 @@ class Board {
     }
 
     createGrid() {
-       let grid = [];
+        //"this" makes a variable usable throughout an object.
+       this.grid = [];
         
         for (let row = 1; row <= this.numRows; row++) {
             let xAxis = [];
             for (let column = 1; column <= this.numCols; column++) {
-                xAxis.push(null);
+                if (this.numShips > 0) {
+                    this.numShips--;
+                    xAxis.push("s");
+                } else {
+                    xAxis.push(null);
+                }
             }
-            grid.push(xAxis);
+            this.grid.push(xAxis);
         }
-        return grid;
     }
+
 }
 
-const boardGame = new Board(2, 2);
-console.log(boardGame.populateGrid())
+const boardGame = new Board(2, 2, 1);
+boardGame.createGrid()
+console.log(boardGame);
 
 //CB
 //Next step after user input is received.
