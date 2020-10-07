@@ -21,7 +21,7 @@ class HumanPlayer {
     constructor() {
         rl = readline.createInterface(process.stdin, process.stdout);
     }
-    
+
     getMove(cb) {
         rl.question('Make your move!', (answer) => {
             cb(answer);
@@ -49,19 +49,18 @@ function gridSpace(r, c) {
     return coordinates;
 }
 
-// console.log(gridSpace(3, 8));
-
 class Board {
-    constructor (numRows, numCols, numShips) {
+    constructor (numRows, numCols, numShips, player) {
         this.numRows = numRows; //10
         this.numCols = numCols; //10
         this.numShips = numShips;
+        this.player = player;
     }
 
     createGrid() {
         //"this" makes a variable usable throughout an object.
        this.grid = [];
-        
+
         for (let row = 1; row <= this.numRows; row++) {
             let xAxis = [];
             for (let column = 1; column <= this.numCols; column++) {
@@ -76,8 +75,33 @@ class Board {
         }
     }
 
-}
+    gridDisplay() {
+        return this.grid;
+    }
 
+    shipsRemaining() {
+        console.log(`${this.numShips} are remaining`)
+    }
+
+    gameStatus() {
+        if(this.numShips === 0) {
+            console.log(`${this.numShips} remaining, game over!`)
+        }
+    }
+    // if the space has been called upon before is invalid
+    // if the space does not exist it is invalid
+    inValidMove() {
+        // if player input is undefined
+    }
+
+    playerInput (array) {
+        // a miss is 'x'
+        // for loop 
+        this.firedUponSpaces();
+    }
+
+}
+const player1 = new HumanPlayer
 const boardGame = new Board(2, 2, 1);
 boardGame.createGrid()
 console.log(boardGame);
