@@ -1,3 +1,5 @@
+const readline = require('readline')
+
 //implement game called Battleship
 //User plays game w/ terminal
 //State of game represented by 10x10 Grid Board
@@ -14,9 +16,6 @@
     //Attacked ships
 //Not displayed
     //Unattacked ships
-
-const readline = require('readline')
-const rl = readline.createInterface(process.stdin, process.stdout);
 
 class HumanPlayer {
     constructor() {
@@ -52,6 +51,30 @@ function gridSpace(r, c) {
 
 console.log(gridSpace(3, 8));
 
+class Board {
+    constructor (numRows, numCols, numShips) {
+        this.numRows = numRows; //10
+        this.numCols = numCols; //10
+        this.numShips = numShips;
+    }
+
+    createGrid() {
+       let grid = [];
+        
+        for (let row = 1; row <= this.numRows; row++) {
+            let xAxis = [];
+            for (let column = 1; column <= this.numCols; column++) {
+                xAxis.push(null);
+            }
+            grid.push(xAxis);
+        }
+        return grid;
+    }
+}
+
+const boardGame = new Board(2, 2);
+console.log(boardGame.populateGrid())
+
 //CB
 //Next step after user input is received.
 //Next square player wants to attack.
@@ -67,5 +90,8 @@ console.log(gridSpace(3, 8));
 // counter = however many grid spaces it occupies
 // if hit, counter -= 1;
 // if counter === 0, ship is DESTROYED!!!
+
+//Ship Placement:
+//
 
 module.exports = HumanPlayer
